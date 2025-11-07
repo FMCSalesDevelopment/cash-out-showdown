@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cash-Out Showdown! | Freedom Mortgage Training</title>
+
+  <!-- Poppins (brand web font). Canela Text Black requires a license; omit unless licensed. -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="questions.js"></script>
+  <script defer src="game.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+
+  <header class="site-header" role="banner">
+    <div class="brand">
+      <!-- Use logo ONLY per brand rules; if used, keep contrast and alt text. -->
+      <!-- <img src="assets/fm-logo.svg" alt="Freedom Mortgage" class="logo" /> -->
+      <h1 class="headline" aria-label="Cash-Out Showdown">Cash-Out Showdown!</h1>
+      <p class="subhead">Train faster. Score higher. Learn the why behind every guideline.</p>
+    </div>
+  </header>
+
+  <main id="game" class="game" role="main">
+    <section class="intro" aria-labelledby="intro-h">
+      <h2 id="intro-h">How to Play</h2>
+      <ul>
+        <li>20 questions across FHA, VA, and Conventional cash-out refi guidelines.</li>
+        <li>Each question starts at 1,000 points; the score drops every 3 seconds.</li>
+        <li>See the correct answer, a quick explanation, and a running leaderboard after each question.</li>
+      </ul>
+      <button id="startBtn" class="btn btn-primary" aria-describedby="ada-note">Start Game</button>
+      <p id="ada-note" class="ada-note">Fully keyboard accessible. Press <kbd>Enter</kbd> to select, <kbd>←</kbd>/<kbd>→</kbd> to move, and <kbd>Tab</kbd> to navigate.</p>
+    </section>
+
+    <section id="hud" class="hud" aria-label="Game status">
+      <div class="hud-item"><span class="hud-label">Question</span><span id="qNumber" class="hud-value">0 / 20</span></div>
+      <div class="hud-item"><span class="hud-label">Timer</span><span id="timer" class="hud-value" aria-live="polite">—</span></div>
+      <div class="hud-item"><span class="hud-label">Points</span><span id="points" class="hud-value" aria-live="polite">—</span></div>
+      <div class="hud-item"><span class="hud-label">Total</span><span id="total" class="hud-value" aria-live="polite">0</span></div>
+    </section>
+
+    <section id="qa" class="card" aria-labelledby="qText">
+      <h2 id="qText" class="question" aria-live="polite"></h2>
+      <div id="answers" class="answers" role="list"></div>
+      <button id="submitBtn" class="btn btn-action" disabled>Submit</button>
+    </section>
+
+    <section id="feedback" class="feedback" aria-live="polite" hidden>
+      <h3 id="correctLabel"></h3>
+      <p id="explanation"></p>
+      <button id="nextBtn" class="btn">Next Question</button>
+    </section>
+
+    <section id="leaderboard" class="leaderboard" aria-labelledby="leaderboard-h" hidden>
+      <h2 id="leaderboard-h">Leaderboard</h2>
+      <ol id="leaderboardList"></ol>
+    </section>
+
+    <section id="final" class="final card" hidden>
+      <h2>Final Showdown</h2>
+      <p>One last question worth 2,000 points. You’ve got 10 seconds!</p>
+      <button id="finalStartBtn" class="btn btn-primary">Begin Final</button>
+      <div id="finalWrap" hidden>
+        <h3 id="finalQ" class="question" aria-live="polite"></h3>
+        <div id="finalAnswers" class="answers"></div>
+        <button id="finalSubmitBtn" class="btn btn-action" disabled>Submit Final</button>
+      </div>
+      <div id="finalResult" class="feedback" hidden aria-live="polite"></div>
+      <button id="restartBtn" class="btn" hidden>Play Again</button>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="legal">
+      <p class="small">
+        This game is for internal training only. Guideline summaries reference FHA (HUD 4000.1), VA Pamphlet 26-7, and the Fannie Mae/Freddie Mac Selling Guides. Always verify the latest source documents.
+      </p>
+      <p class="small">
+        Equal Housing Opportunity. Freedom Mortgage Corporation, NMLS # 2767 (nmlsconsumeraccess.org). For complete licensing information, visit FreedomMortgage.com/state-licensing. © 2025 Freedom Mortgage Corporation.
+      </p>
+      <!-- Optional equal housing icon per brand usage -->
+      <!-- <img src="assets/equal-housing.svg" alt="Equal Housing Opportunity" class="eho" /> -->
+    </div>
+  </footer>
+</body>
+</html>
