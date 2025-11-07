@@ -109,6 +109,7 @@ body {
 .question {
   margin-top: 0;
   font-weight: 600;
+  color: #fff;
 }
 
 /* Answer buttons */
@@ -127,14 +128,17 @@ body {
   border-radius: 14px;
   padding: 14px;
   cursor: pointer;
-  color: #fff; /* Force white text for contrast */
   appearance: none;
   -webkit-appearance: none;
   transition: background 0.2s ease, transform 0.1s ease;
+
+  /* ✅ Force all text inside to white */
+  color: #ffffff !important;
 }
 
-.answer span {
-  color: inherit; /* Keep text white */
+/* ✅ Force all nested elements to inherit white */
+.answer * {
+  color: #ffffff !important;
 }
 
 .answer:hover {
@@ -144,6 +148,7 @@ body {
 
 .answer[aria-checked="true"] {
   outline: 3px solid var(--fm-teal);
+  background: #144b5a;
 }
 
 .answer:focus {
@@ -152,7 +157,7 @@ body {
 
 .answer .choice-letter {
   font-weight: 600;
-  color: var(--fm-bright-blue-on-dark);
+  color: var(--fm-bright-blue-on-dark) !important;
   opacity: 1;
 }
 
