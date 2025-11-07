@@ -1,7 +1,7 @@
 (function(){
   const START_POINTS = 1000;
   const TICK_MS = 3000;      // score drops every 3 seconds
-  const DROP = 1000/5;       // 1000 → 750 → 500 → 250 → 100 (we clamp later)
+  const DROP = 1000/5;       // 1000 → 750 → 500 → 250 → 100
   const MAX_Q = 20;
 
   // elements
@@ -16,7 +16,6 @@
   const feedback = document.getElementById('feedback');
   const correctLabel = document.getElementById('correctLabel');
   const explanation = document.getElementById('explanation');
-  const nextBtn = document.getElementById('nextBtn');
   const leader = document.getElementById('leaderboard');
   const leaderList = document.getElementById('leaderboardList');
   const finalSec = document.getElementById('final');
@@ -31,14 +30,19 @@
   let idx=0, total=0, countdown, timeLeft, livePoints, selected=null, scores=[];
   let deck = [];
 
-  function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]] } return arr }
+  function shuffle(arr){
+    for(let i=arr.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+  }
 
   function startGame(){
     deck = shuffle([...window.GAME_QUESTIONS]).slice(0, MAX_Q);
     idx=0; total=0; scores=[];
     leader.hidden = false; leaderList.innerHTML='';
     finalSec.hidden = true;
-    nextBtn.hidden = true;
     feedback.hidden = true;
     renderQuestion();
   }
@@ -56,6 +60,7 @@
     answersWrap.innerHTML='';
     selected = null;
     submitBtn.disabled = true;
+    feedback.hidden = true;
 
     q.choices.forEach((text, i)=>{
       const btn = document.createElement('button');
@@ -70,7 +75,7 @@
     });
 
     // timer & points
-    timeLeft = 15;  // 15 secs visual countdown
+    timeLeft = 15;
     livePoints = START_POINTS;
     updateHud();
     clearInterval(countdown);
@@ -79,13 +84,13 @@
 
   function tick(){
     timeLeft--;
-    if(timeLeft % 3 === 2 && livePoints > 100){ // drop every 3 secs
+    if(timeLeft % 3 === 2 && livePoints > 100){
       livePoints = Math.max(100, livePoints - DROP);
     }
     updateHud();
     if(timeLeft <= 0){
       clearInterval(countdown);
-      submit(); // auto-submit when time runs out (0 pts if wrong)
+      submit(); // auto-submit when time runs out
     }
   }
 
@@ -108,7 +113,6 @@
     let earned = 0;
     const correct = (selected === q.answerIndex);
     if(correct){
-      // Convert live points to one of the scoring buckets from the spec
       if(timeLeft >= 12) earned = 1000;
       else if(timeLeft >= 9) earned = 750;
       else if(timeLeft >= 5) earned = 500;
@@ -125,19 +129,18 @@
     correctLabel.textContent = correct ? "✅ Correct!" : "❌ Not quite.";
     explanation.textContent = `${q.choices[q.answerIndex]} — ${q.expl}`;
     feedback.hidden = false;
-    nextBtn.hidden = false;
 
-    // update leaderboard (running list of Q results)
+    // update leaderboard
     const li = document.createElement('li');
     li.textContent = `Q${idx+1}: ${earned} pts • ${correct ? "Correct" : "Wrong"}`;
     leaderList.appendChild(li);
-  }
 
-  function next(){
-    feedback.hidden = true;
-    nextBtn.hidden = true;
-    idx++;
-    renderQuestion();
+    // automatically go to next question after delay
+    setTimeout(()=>{
+      feedback.hidden = true;
+      idx++;
+      renderQuestion();
+    }, 2000); // 2-second pause before next question
   }
 
   function startFinal(){
@@ -188,7 +191,6 @@
   // Events
   startBtn.addEventListener('click', startGame);
   submitBtn.addEventListener('click', submit);
-  nextBtn.addEventListener('click', next);
   finalStartBtn.addEventListener('click', startFinal);
   finalSubmitBtn.addEventListener('click', submitFinal);
   restartBtn.addEventListener('click', ()=>{ location.reload(); });
